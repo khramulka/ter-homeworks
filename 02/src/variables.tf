@@ -5,11 +5,13 @@ variable "token" {
 
 variable "cloud_id" {
   type        = string
+  default     = "b1g4kuvc39s22bslpnoh"
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/cloud/get-id"
 }
 
 variable "folder_id" {
   type        = string
+  default     = "b1g9traceh95c65oa0su"
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
 }
 
@@ -98,7 +100,7 @@ variable "vm_web_serial_port_enable" {
 
 variable "vm_web_ssh_keys" {
   type        = string
-  default     = "ubuntu:ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzPxyrg408uoTpwNEJwtWKaFxH6EbSbbjBHd7i3NepU khramulka@yandex.ru"
+  default     = "ubuntu:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzPxyrg408uoTpwNEJwtWKaFxH6EbSbbjBHd7i3NepU khramulka@yandex.ru"
   description = "SSH keys for the VM"
 }
 
@@ -107,4 +109,3 @@ variable "vm_web_preemptible" {
   default     = true
   description = "Enable preemptible flag for the VM"
 }
-
