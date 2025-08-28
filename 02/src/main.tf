@@ -1,6 +1,7 @@
 resource "yandex_vpc_network" "develop" {
   name = var.vpc_name
 }
+
 resource "yandex_vpc_subnet" "develop" {
   name           = var.vpc_name
   zone           = var.default_zone
@@ -8,34 +9,43 @@ resource "yandex_vpc_subnet" "develop" {
   v4_cidr_blocks = var.default_cidr
 }
 
-
-data "yandex_compute_image" "ubuntu" {
-  family = "ubuntu-2004-lts"
-}
 resource "yandex_compute_instance" "platform" {
-  name        = "netology-develop-platform-web"
-  platform_id = "standard-v1"
+  name        = var.vm_web_name
+  platform_id = var.vm_web_platform_id
+  zone        = var.vm_web_zone
+
   resources {
-    cores         = 2
-    memory        = 1
-    core_fraction = 5
+    core_fraction = var.vm_web_core_fraction
+    cores         = var.vm_web_cores
+    memory        = var.vm_web_memory
   }
+
   boot_disk {
     initialize_params {
-      image_id = data.yandex_compute_image.ubuntu.image_id
+      image_id = var.vm_web_image_id
+      type     = var.vm_web_disk_type
     }
   }
-  scheduling_policy {
-    preemptible = true
-  }
+
   network_interface {
     subnet_id = yandex_vpc_subnet.develop.id
-    nat       = true
+    nat       = var.vm_web_nat
   }
 
   metadata = {
-    serial-port-enable = 1
-    ssh-keys           = "ubuntu:${var.vms_ssh_root_key}"
+    "serial-port-enable" = var.vm_web_serial_port_enable
+    "ssh-keys"           = var.vm_web_ssh_keys
   }
 
+  scheduling_policy {
+    preemptible = var.vm_web_preemptible
+  }
+}
+
+output "external_ip_address" {
+  value = yandex_compute_instance.platform.network_interface.0.nat_ip_address
+}
+
+output "instance_id" {
+  value = yandex_compute_instance.platform.id
 }
