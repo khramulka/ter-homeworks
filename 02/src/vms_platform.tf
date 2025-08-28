@@ -1,5 +1,6 @@
 
 
+
 variable "vm_db_name" {
   type        = string
   default     = "netology-develop-platform-db"

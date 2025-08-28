@@ -1,3 +1,4 @@
+
 resource "yandex_vpc_network" "develop" {
   name = var.vpc_name
 }
@@ -75,6 +76,3 @@ resource "yandex_compute_instance" "platform_db" {
     preemptible = var.vm_web_preemptible
   }
 }
-
-
-
